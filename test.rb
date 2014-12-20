@@ -1,4 +1,4 @@
-
+$:.unshift "./lib"
 require "lightshow"
 require "lightshow/terminal_renderer"
 
