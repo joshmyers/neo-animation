@@ -1,0 +1,2 @@
+class Lightshow::Pixels
+end
