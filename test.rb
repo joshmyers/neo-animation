@@ -39,41 +39,6 @@ class Animations
   end
 end
 
-# class Sawtooth
-#   def initialize(steps, iterations=nil)
-#     @steps      = steps
-#     @max_iterations = iterations
-#     reset
-#   end
-
-#   def reset(*args)
-#     @direction  = 1
-#     @value      = 0
-#     @done       = false
-#     @iterations = 0
-#   end
-
-#   def done?
-#     @done
-#   end
-
-#   def next
-#     return if done?
-#     @value += @direction
-#     if @value == @steps
-#       @direction = -1
-#     elsif @value == 0
-#       @direction = 1
-#       @iterations += 1
-#       @done = @max_iterations && @iterations == @max_iterations
-#     end
-#   end
-
-#   def value
-#     @value.to_f/@steps
-#   end
-# end
-
 class Wipe
   attr_reader :pixels
 
@@ -141,12 +106,51 @@ class Fade
 
 end
 
+class Reverse
+  attr_reader :pixels
+  def initialize(renderer)
+    @renderer = renderer
+  end
+  def reset(pixels)
+    @pixels = pixels
+    @done = false
+  end
+  def done?
+    @done
+  end
+  def next
+    @done = true
+    @renderer.reverse = !@renderer.reverse
+    @pixels
+  end
+end
+
+class Offset
+  attr_reader :pixels
+  def initialize(renderer)
+    @renderer = renderer
+  end
+  def reset(pixels)
+    @pixels = pixels
+    @done = false
+  end
+  def done?
+    @done
+  end
+  def next
+    @done = true
+    @renderer.offset = (@renderer.offset + 1) % pixels.length
+    @pixels
+  end
+end
+
 fps = 48
 delay = 1.0/fps
 pixels = [[0,0,0]] * 24
 renderer = Lightshow::TerminalRenderer.new
 
 trap("INT") {
+  print "\r"
   wipe = Fade.new([0,0,0], 10)
   wipe.reset pixels
   while !wipe.done?
@@ -158,11 +162,13 @@ trap("INT") {
 }
 
 animations = Animations.new pixels, [
-  Wipe.new([1,0,0], :down),
-  Wipe.new([0,1,0], :down),
-  Wipe.new([0,0,1], :down),
-  Fade.new([1,1,1], 10),
-  Fade.new([0,0,0], 10),
+  Wipe.new([1,0,0]),
+  Wipe.new([0,1,0]),
+  Wipe.new([0,0,1]),
+  # Fade.new([1,1,1], 10),
+  # Fade.new([0,0,0], 10),
+  Reverse.new(renderer),
+  Offset.new(renderer)
 ]
 interval = Every.new(1.0/pixels.size)
 
@@ -175,4 +181,3 @@ loop do
   animations.rotate if animations.next?
   sleep delay
 end
-
