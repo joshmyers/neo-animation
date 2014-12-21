@@ -1,3 +1,6 @@
+#!ruby19
+# encoding: utf-8
+
 begin
   require "paint"
 rescue LoadError

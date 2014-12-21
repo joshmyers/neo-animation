@@ -1,4 +1,4 @@
-require "light_show/with_delay"
+require_relative "animations/with_delay"
 
 module LightShow
   # A top-level animation, which may itself contain many smaller animations and

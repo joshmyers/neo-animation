@@ -1,7 +1,6 @@
-$:.unshift "./lib"
-require "light_show"
-require "light_show/console_renderer"
-# require "light_show/neopixel_renderer"
+require_relative "./light_show"
+require_relative "./light_show/console_renderer"
+# require_relative "./light_show/neopixel_renderer"
 
 class Every
   def initialize(interval)
