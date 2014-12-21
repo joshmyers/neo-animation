@@ -4,7 +4,7 @@ rescue LoadError
   abort "Couldn't load the 'neo_pixels' gem, which is requred for the neopixel renderer"
 end
 
-class Lightshow::NeopixelRenderer
+class LightShow::NeopixelRenderer
   # Public: the offset from 0, where pixel 1 starts.
   attr_accessor :offset
   attr_accessor :reverse

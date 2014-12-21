@@ -4,7 +4,7 @@ rescue LoadError
   abort "Couldn't load the 'paint' gem, which is requred for the terminal renderer"
 end
 
-class Lightshow::ConsoleRenderer
+class LightShow::ConsoleRenderer
   # Public: the offset from 0, where pixel 1 starts.
   attr_accessor :offset
   attr_accessor :reverse

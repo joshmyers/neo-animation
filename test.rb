@@ -1,7 +1,7 @@
 $:.unshift "./lib"
-require "lightshow"
-require "lightshow/console_renderer"
-# require "lightshow/neopixel_renderer"
+require "light_show"
+require "light_show/console_renderer"
+# require "light_show/neopixel_renderer"
 
 class Every
   def initialize(interval)
@@ -148,8 +148,8 @@ end
 fps = 48
 delay = 1.0/fps
 pixels = [[0,0,0]] * 24
-console = Lightshow::ConsoleRenderer.new
-# neopixels = Lightshow::NeopixelRenderer.new \
+console = LightShow::ConsoleRenderer.new
+# neopixels = LightShow::NeopixelRenderer.new \
 #   :led_count => 24,
 #   :led_pin => 18,
 #   :led_brightness => 15,
