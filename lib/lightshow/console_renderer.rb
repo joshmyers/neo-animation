@@ -20,8 +20,8 @@ class Lightshow::ConsoleRenderer
     end
     values = values.reverse if reverse
     values = values.rotate(-@offset)
-    print "\r* "
-    print values.map { |v| Paint["  ", nil, v] }.join("")
-    print " *"
+    print "\r "
+    print values.map { |v| Paint["◉ ", v] }.join("")
+    print " "
   end
 end
