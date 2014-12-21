@@ -1,6 +1,7 @@
 $:.unshift "./lib"
 require "lightshow"
 require "lightshow/console_renderer"
+# require "lightshow/neopixel_renderer"
 
 class Every
   def initialize(interval)
@@ -147,14 +148,20 @@ end
 fps = 48
 delay = 1.0/fps
 pixels = [[0,0,0]] * 24
-renderer = Lightshow::ConsoleRenderer.new
+console = Lightshow::ConsoleRenderer.new
+# neopixels = Lightshow::NeopixelRenderer.new \
+#   :led_count => 24,
+#   :led_pin => 18,
+#   :led_brightness => 15,
+#   :offset => 8 # for sideways, 14 for upright
 
 trap("INT") {
   print "\r"
   wipe = Fade.new([0,0,0], 10)
   wipe.reset pixels
   while !wipe.done?
-    renderer.render wipe.next
+    console.render wipe.next
+    # neopixels.render wipe.next
     sleep delay
   end
   puts
@@ -167,8 +174,10 @@ animations = Animations.new pixels, [
   Wipe.new([0,0,1]),
   # Fade.new([1,1,1], 10),
   Fade.new([0,0,0], 10),
-  Reverse.new(renderer),
-  Offset.new(renderer)
+  # Reverse.new(console),
+  # Offset.new(console),
+  # Reverse.new(neopixels),
+  # Offset.new(neopixels)
 ]
 interval = Every.new(1.0/pixels.size)
 
@@ -176,7 +185,8 @@ loop do
   anim = animations.current
   interval.tick(delay) do
     pixels = anim.next
-    renderer.render pixels
+    console.render pixels
+    # neopixels.render pixels
   end
   animations.rotate if animations.next?
   sleep delay
