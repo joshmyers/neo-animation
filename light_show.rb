@@ -10,7 +10,7 @@
 module LightShow
 
   # Return a frame of pixel_count pixels filled with the given color.
-  def self.color_frame(pixel_count, r, g, b)
+  def self.color_frame(pixel_count, r = 0, g = 0, b = 0)
     [[r, g, b]] * pixel_count
   end
 
