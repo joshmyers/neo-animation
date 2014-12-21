@@ -1,6 +1,6 @@
 $:.unshift "./lib"
 require "lightshow"
-require "lightshow/terminal_renderer"
+require "lightshow/console_renderer"
 
 class Every
   def initialize(interval)
@@ -147,7 +147,7 @@ end
 fps = 48
 delay = 1.0/fps
 pixels = [[0,0,0]] * 24
-renderer = Lightshow::TerminalRenderer.new
+renderer = Lightshow::ConsoleRenderer.new
 
 trap("INT") {
   print "\r"
@@ -166,7 +166,7 @@ animations = Animations.new pixels, [
   Wipe.new([0,1,0]),
   Wipe.new([0,0,1]),
   # Fade.new([1,1,1], 10),
-  # Fade.new([0,0,0], 10),
+  Fade.new([0,0,0], 10),
   Reverse.new(renderer),
   Offset.new(renderer)
 ]
