@@ -22,20 +22,20 @@ main = LightShow::Animation.new do |a|
 
   # Color wipe animations
   a.delay_ms 75
-  # a << LightShow::ColorWipe.new(1, 0, 0) # red color wipe
-  # a << LightShow::ColorWipe.new(0, 1, 0) # green color wipe
-  # a << LightShow::ColorWipe.new(0, 0, 1) # blue color wipe
+  a << LightShow::ColorWipe.new(1, 0, 0) # red color wipe
+  a << LightShow::ColorWipe.new(0, 1, 0) # green color wipe
+  a << LightShow::ColorWipe.new(0, 0, 1) # blue color wipe
 
   # Theater chase animations
   a.delay_ms 100
-  # a << LightShow::SolidColor.new(0, 0, 0)
-  # a << LightShow::TheaterChase.new(1, 1, 1)
-  # a << LightShow::TheaterChase.new(1, 0, 0)
-  # a << LightShow::TheaterChase.new(0, 0, 1)
+  a << LightShow::SolidColor.new(0, 0, 0)
+  a << LightShow::TheaterChase.new(1, 1, 1)
+  a << LightShow::TheaterChase.new(1, 0, 0)
+  a << LightShow::TheaterChase.new(0, 0, 1)
 
   a.delay_ms 20
-  # a << LightShow::Rainbow.new
-  # a << LightShow::RainbowCycle.new
+  a << LightShow::Rainbow.new
+  a << LightShow::RainbowCycle.new
 
   a.delay_ms 75
   a << LightShow::TheaterChaseRainbow.new
