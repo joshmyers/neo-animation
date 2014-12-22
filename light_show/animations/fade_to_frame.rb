@@ -1,5 +1,9 @@
+require_relative "../lerp"
+
 module LightShow
   class FadeToFrame
+    include Lerp
+
     def initialize(frame, steps)
       @frame, @steps = frame, steps
     end
@@ -13,10 +17,5 @@ module LightShow
       end
     end
 
-    def lerp(from, to, t)
-      from.zip(to).map do |a,b|
-        a + (b - a) * t
-      end
-    end
   end
 end

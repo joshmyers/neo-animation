@@ -18,7 +18,7 @@ else
 end
 
 
-main = LightShow::Animation.new do |a|
+clock = LightShow::Animation.new do |a|
   a.forever
   a.delay_ms 50
   a << LightShow::Additive.new do |add|
@@ -34,13 +34,16 @@ main = LightShow::Animation.new do |a|
       face << fade
       face << LightShow::SolidColor.new(0,0,0, :frames => 150)
     end
-    add << LightShow::Pendulum.new(0.1, 0.025, 0, :period => 2, :clockwise => true)
+    add << LightShow::Pendulum.new(0.1, 0.04, 0, :period => 2, :clockwise => true)
   end
 end
 
-runner = LightShow::Interrupt.new(main) do |shutdown|
+fade_in = LightShow::FadeInOut.new \
+  :animation => clock, :fade_in_frames => 10, :fade_out_frames => 0
+
+runner = LightShow::Interrupt.new(fade_in) do |shutdown|
   shutdown.delay_ms 10
-  shutdown << LightShow::ColorWipe.new(0, 0, 0)
+  shutdown << LightShow::FadeToColor.new(0, 0, 0, :steps => 50)
 end
 
 black = LightShow.color_frame(PIXELS)
