@@ -4,12 +4,16 @@ module LightShow
       @color = [r, g, b]
     end
 
-    def each_frame(previous)
+    def frames(previous)
       frame = previous.dup
-      previous.length.times do |i|
-        frame[i] = @color
-        yield frame
+
+      Enumerator.new do |y|
+        previous.length.times do |i|
+          frame[i] = @color
+          y << frame
+        end
       end
     end
+
   end
 end

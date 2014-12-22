@@ -31,12 +31,15 @@ module LightShow
       @delay_ms = ms
     end
 
-    # Public: Iterate and yield each frame of each added animation.
-    def each_frame(previous, &block)
-      previous = iterate_frames @animations, previous, &block
+    def frames(previous)
+      Enumerator.new do |y|
+        previous = iterate_frames(@animations, previous) { |f| y << f }
 
-      if @loop && @loop.any?
-        loop { iterate_frames @loop, previous, &block }
+        if @loop && @loop.any?
+          loop do
+            iterate_frames(@loop, previous) { |f| y << f }
+          end
+        end
       end
     end
 
@@ -52,7 +55,7 @@ module LightShow
     # next one in line.
     def iterate_frames(animations, previous)
       animations.each do |animation|
-        animation.each_frame(previous) do |frame|
+        animation.frames(previous).each do |frame|
           previous = frame
           yield frame
         end

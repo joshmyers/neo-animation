@@ -7,12 +7,13 @@ module LightShow
       @animation = animation
     end
 
-    def each_frame(previous)
-      @animation.each_frame(previous) do |frame|
-        yield frame
-        sleep @ms/1000.0
+    def frames(previous)
+      Enumerator.new do |y|
+        @animation.frames(previous).each do |frame|
+          y << frame
+          sleep @ms/1000.0
+        end
       end
     end
   end
-
 end

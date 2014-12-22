@@ -12,7 +12,7 @@ class LightShow::NeopixelRenderer
   # Internal: the neopixels instance
   attr_reader :neopixels
 
-  def initialize(opts={})
+  def initialize(opts = {})
     @neopixels = PixelPi::Leds.new \
       opts.fetch(:led_count),
       opts.fetch(:led_pin),

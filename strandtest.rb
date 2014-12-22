@@ -50,7 +50,7 @@ black = LightShow.color_frame(PIXELS, 0,0,0)
 
 trap("INT") { runner.stop! }
 
-runner.each_frame(black) do |frame|
+runner.frames(black).each do |frame|
   renderers.each { |renderer| renderer.render frame }
 end
 puts

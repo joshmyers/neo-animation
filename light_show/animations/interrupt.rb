@@ -16,15 +16,17 @@ module LightShow
       @stopped = true
     end
 
-    def each_frame(previous)
-      @animation.each_frame(previous) do |frame|
-        break if @stopped
-        yield frame
-        previous = frame
-      end
+    def frames(previous)
+      Enumerator.new do |y|
+        @animation.frames(previous).each do |frame|
+          break if @stopped
+          y << frame
+          previous = frame
+        end
 
-      @shutdown.each_frame(previous) do |frame|
-        yield frame
+        @shutdown.frames(previous).each do |frame|
+          y << frame
+        end
       end
     end
   end

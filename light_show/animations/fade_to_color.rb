@@ -1,13 +1,16 @@
 module LightShow
   class FadeToColor
-    def initialize(color, steps)
-      @color, @steps = color, steps
+    def initialize(r, g, b, opts = {})
+      @color = [r,g,b]
+      @steps = opts.fetch(:steps, 10)
     end
 
-    def each_frame(previous)
-      1.upto(@steps) do |step|
-        t = step.to_f/@steps
-        yield previous.map { |from| lerp(from, @color, t) }
+    def frames(previous)
+      Enumerator.new do |y|
+        1.upto(@steps) do |step|
+          t = step.to_f/@steps
+          y << previous.map { |from| lerp(from, @color, t) }
+        end
       end
     end
 

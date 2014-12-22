@@ -4,9 +4,8 @@
 # arrays of [r,g,b] values where r, g, and b are floating point values with the
 # range of 0.0-1.0.
 #
-# Animation instances must implement an `each_frame` method which takes a
-# previous frame value as an argument. `each_frame` may yield subsequent frames,
-# which will then be rendered.
+# Animation instances must implement a `frames` method, which returns an
+# enumerator or enumeratable collection that responds to #each.
 module LightShow
 
   # Return a frame of pixel_count pixels filled with the given color.

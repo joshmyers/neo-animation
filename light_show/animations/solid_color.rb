@@ -1,11 +1,12 @@
 module LightShow
   class SolidColor
-    def initialize(r, g, b)
+    def initialize(r, g, b, opts = {})
       @color = [r,g,b]
+      @frames = opts.fetch(:frames, 1)
     end
 
-    def each_frame(prev)
-      yield [@color] * prev.length
+    def frames(prev)
+      [[@color] * prev.length] * @frames
     end
   end
 end

@@ -10,13 +10,15 @@ module LightShow
       @iterations = opts.fetch(:iterations, 10)
     end
 
-    def each_frame(previous)
-      length = previous.length
-      iterations.times do
-        spacing.times do |space|
-          frame = LightShow.color_frame(length, 0, 0, 0)
-          (0...length).step(spacing) { |i| frame[space+i] = color }
-          yield frame
+    def frames(previous)
+      Enumerator.new do |y|
+        length = previous.length
+        iterations.times do
+          spacing.times do |space|
+            frame = LightShow.color_frame(length)
+            (0...length).step(spacing) { |i| frame[space+i] = color }
+            y << frame
+          end
         end
       end
     end
