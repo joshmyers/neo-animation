@@ -1,7 +1,7 @@
 begin
-  require "neo_pixels"
+  require "pixel_pi"
 rescue LoadError
-  abort "Couldn't load the 'neo_pixels' gem, which is requred for the neopixel renderer"
+  abort "Couldn't load the 'pixel_pi' gem, which is requred for the neopixel renderer"
 end
 
 class LightShow::NeopixelRenderer
@@ -13,7 +13,7 @@ class LightShow::NeopixelRenderer
   attr_reader :neopixels
 
   def initialize(opts={})
-    @neopixels = NeoPixels.new \
+    @neopixels = PixelPi::Leds.new \
       opts.fetch(:led_count),
       opts.fetch(:led_pin),
       :frequency  => opts.fetch(:led_frequency_hz, 800_000),
@@ -27,7 +27,7 @@ class LightShow::NeopixelRenderer
   def render(pixels)
     values = pixels.map do |pixel|
       rgb = pixel.map { |p| (p * 255).floor }
-      NeoPixels::Color(*rgb)
+      PixelPi::Color(*rgb)
     end
     values = values.reverse if reverse
     values = values.rotate(-@offset)

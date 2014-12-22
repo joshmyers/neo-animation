@@ -16,4 +16,9 @@ Yes it will.
 
 On your mac, for console rendering: `gem install paint`
 
-On your raspberry pi, install the neopixel ruby gem from the ruby code in [TwP's fork of the rpi_ws281x project](https://github.com/TwP/rpi_ws281x). And the paint gem too.
+On your raspberry pi, install the `pixel_pi` and `paint` ruby gems:
+
+```sh
+gem install pixel_pi
+gem install paint
+```
