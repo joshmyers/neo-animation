@@ -28,13 +28,13 @@ main = LightShow::Animation.new do |a|
     add << LightShow::Animation.new do |face|
       fade = LightShow::FadeInOut.new \
         :animation        => LightShow::ClockFace.new(8.0/256, 16.0/256),
-        :animation_frames => 20, # it's infinite, so only keep it for a bit
+        :animation_frames => 10, # it's infinite, so only keep it for a bit
         :fade_in_frames   => 20,
         :fade_out_frames  => 20
       face << fade
-      face << LightShow::SolidColor.new(0,0,0, :frames => 140) # 7 seconds at 50ms
+      face << LightShow::SolidColor.new(0,0,0, :frames => 150)
     end
-    add << LightShow::Pendulum.new(0.1, 0.025, 0, :period => 4)
+    add << LightShow::Pendulum.new(0.1, 0.025, 0, :period => 2, :clockwise => true)
   end
 end
 
