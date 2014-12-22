@@ -35,7 +35,7 @@ clock = LightShow::Animation.new do |clk|
 
     # And fade in the clock face itself every so often
     add << LightShow::Animation.new do |face|
-      face << LightShow::SolidColor.new(0,0,0, :frames => 150)
+      face << LightShow::SolidColor.new(0,0,0, :frames => 550)
       fade = LightShow::FadeInOut.new \
         :animation        => LightShow::ClockFace.new(8.0/256, 16.0/256),
         :animation_frames => 10, # it's infinite, so only keep it for a bit
