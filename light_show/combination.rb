@@ -14,36 +14,50 @@ module LightShow
       @animations << animation
     end
 
-    # Iterate over the combined animations, lazily evaluating each frame.
+    # Frames for the combined animations, lazily evaluating each frame.
     #
     # If none or only one animation is provided, no combination is performed.
     # Iteration stops if any animation returns a nil frame.
-    def each_frame(previous, &block)
-      return if @animations.empty?
-      if @animations.size == 1
-        # Pass-through, no combining needed
-        @animations.each_frame(previous, &block)
-      else
-        # Wrap each animation as a lazily-evaluated enumerator
-        enums = @animations.map do |animation|
-          Enumerator.new do |yielder|
-            animation.each_frame(previous) do |frame|
-              yielder << frame
-            end
-          end.lazy # lazy is critical!
-        end
+    def frames(previous)
+      return [] if @animations.empty?
+      return @animations.first.frames(previous) if @animations.size == 1
 
-        # Then zip them together, combining each set of frames
-        enums.first.zip(*enums[1..-1]).each do |frames|
-          break if frames.any?(&:nil?)
-          block.call combine_frames(frames)
+      # Lazily zip the next frames of each animation together. Ruby 1.9.3
+      # doesn't have lazy enumerators or lazy zip, so do it by hand.
+      Enumerator.new do |y|
+        enums = @animations.map { |anim| anim.frames(previous).each }
+
+        loop do
+          begin
+            frames = enums.map(&:next)
+            y << combine_frames(frames)
+          rescue StopIteration
+            break
+          end
         end
       end
     end
 
-    # Combine a set of frames. Override this to define your own behavior.
+    # Combine a set of frames.
+    #
+    # Defaults to calling combine_colors with the colors for each pixel.
+    #
+    # Override this to define your own behavior.
     def combine_frames(frames)
-      raise NotImplementedError, "must implement combine_frames"
+      frames.first.zip(*frames[1..-1]).map do |pixels|
+        combine_pixels pixels
+      end
+    end
+
+    # Combine pixels by calling combine_values on each of r, g, and b.
+    def combine_pixels(pixels)
+      pixels.first.zip(*pixels[1..-1]).map do |values|
+        combine_values values
+      end
+    end
+
+    def combine_values(colors)
+      raise NotImplementedError, "must implement combine_values"
     end
   end
 end
