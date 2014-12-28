@@ -29,12 +29,9 @@ class LightShow::NeopixelRenderer
       rgb = pixel.map { |p| (p * 255).floor }
       PixelPi::Color(*rgb)
     end
-    values = values.reverse if reverse
-    values = values.rotate(-@offset)
-
-    0.upto(@neopixels.length) do |n|
-      @neopixels[n] = values[n] if values[n]
-    end
+    @neopixels.replace values
+    @neopixels.reverse if reverse
+    @neopixels.rotate(-@offset) if @offset != 0
     @neopixels.show
   end
 end
