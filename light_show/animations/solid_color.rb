@@ -6,7 +6,14 @@ module LightShow
     end
 
     def frames(prev)
-      [[@color] * prev.length] * @frames
+      frame = [@color] * prev.length
+        Enumerator.new do |y|
+          if @frames.nil?
+            loop  { y << frame }
+          else
+            @frames.times { y << frame }
+          end
+        end
     end
   end
 end
