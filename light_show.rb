@@ -13,6 +13,12 @@ module LightShow
     [[r, g, b]] * pixel_count
   end
 
+  def self.acid(steps, offset=0)
+    steps.times.map do |step|
+      color_wheel step.to_f/steps + rand(0.to_f..1.to_f)
+    end
+  end
+
   def self.rainbow(steps, offset=0)
     steps.times.map do |step|
       color_wheel step.to_f/steps + offset
@@ -37,8 +43,12 @@ module LightShow
 end
 
 require_relative "light_show/animation"
+require_relative "light_show/animations/theater_chase_rainbow"
 require_relative "light_show/animations/clock_face"
 require_relative "light_show/animations/clock_hand"
+require_relative "light_show/animations/thunderclap_lightning"
+require_relative "light_show/animations/acid_lightning"
+require_relative "light_show/animations/rolling_lightning"
 require_relative "light_show/animations/color_wipe"
 require_relative "light_show/animations/fade_to_color"
 require_relative "light_show/animations/fade_to_frame"
